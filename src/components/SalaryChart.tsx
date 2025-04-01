@@ -31,6 +31,7 @@ interface SalaryData {
   grabSg: CompanyData;
   ovo: CompanyData;
   shopee: CompanyData;
+  shopeeMy: CompanyData;
   touchngo: CompanyData;
 }
 
@@ -74,6 +75,7 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRat
     grabSg: true,
     ovo: true,
     shopee: true,
+    shopeeMy: true,
     touchngo: true
   });
   
@@ -99,6 +101,8 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRat
         ovo_max: item.ovo.max * multiplier,
         shopee_min: item.shopee.min * multiplier,
         shopee_max: item.shopee.max * multiplier,
+        shopeeMy_min: item.shopeeMy.min * multiplier,
+        shopeeMy_max: item.shopeeMy.max * multiplier,
         touchngo_min: item.touchngo.min * multiplier,
         touchngo_max: item.touchngo.max * multiplier,
       };
@@ -107,8 +111,8 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRat
 
   const chartData = transformData(data);
   
-  const companies = ["tiket", "bukalapak", "gojek", "grabMy", "grabSg", "ovo", "shopee", "touchngo"];
-  const colors = ["#3b82f6", "#ef4444", "#10b981", "#8b5cf6", "#6366f1", "#f97316", "#ec4899", "#14b8a6"];
+  const companies = ["tiket", "bukalapak", "gojek", "grabMy", "grabSg", "ovo", "shopee", "shopeeMy", "touchngo"];
+  const colors = ["#3b82f6", "#ef4444", "#10b981", "#8b5cf6", "#6366f1", "#f97316", "#ec4899", "#d946ef", "#14b8a6"];
 
   const toggleCompany = (company: string) => {
     setVisibleCompanies(prev => ({
@@ -122,6 +126,7 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRat
   const getCompanyDisplayName = (company: string) => {
     if (company === "grabMy") return "Grab MY";
     if (company === "grabSg") return "Grab SG";
+    if (company === "shopeeMy") return "Shopee MY";
     return company.charAt(0).toUpperCase() + company.slice(1);
   };
 

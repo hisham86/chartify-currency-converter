@@ -99,7 +99,10 @@ const Index = () => {
             let displayName = company;
             if (company === "grabMy") displayName = "Grab MY";
             if (company === "grabSg") displayName = "Grab SG";
-            else displayName = company.charAt(0).toUpperCase() + company.slice(1);
+            if (company === "shopeeMy") displayName = "Shopee MY";
+            else if (!["grabMy", "grabSg", "shopeeMy"].includes(company)) {
+              displayName = company.charAt(0).toUpperCase() + company.slice(1);
+            }
             
             return (
               <span key={company}>

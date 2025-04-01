@@ -16,6 +16,7 @@ export interface SalaryData {
   grabSg: CompanyData;
   ovo: CompanyData;
   shopee: CompanyData;
+  shopeeMy: CompanyData;
   touchngo: CompanyData;
 }
 
@@ -30,6 +31,7 @@ export const productManagementData: SalaryData[] = [
     grabSg: { min: 6500000, max: 18000000 },
     ovo: { min: 7557922, max: 13374738 },
     shopee: { min: 6500000, max: 18000000 },
+    shopeeMy: { min: 5800000, max: 15000000 },
     touchngo: { min: 5200000, max: 14000000 }
   },
   {
@@ -41,6 +43,7 @@ export const productManagementData: SalaryData[] = [
     grabSg: { min: 10000000, max: 28000000 },
     ovo: { min: 10487651, max: 18410286 },
     shopee: { min: 10000000, max: 25000000 },
+    shopeeMy: { min: 8500000, max: 22000000 },
     touchngo: { min: 9000000, max: 22000000 }
   },
   {
@@ -52,6 +55,7 @@ export const productManagementData: SalaryData[] = [
     grabSg: { min: 10000000, max: 27000000 },
     ovo: { min: 14540586, max: 25717198 },
     shopee: { min: 15000000, max: 35000000 },
+    shopeeMy: { min: 12000000, max: 28000000 },
     touchngo: { min: 13000000, max: 30000000 }
   },
   {
@@ -63,6 +67,7 @@ export const productManagementData: SalaryData[] = [
     grabSg: { min: 15000000, max: 40000000 },
     ovo: { min: 23926470, max: 41056463 },
     shopee: { min: 25000000, max: 45000000 },
+    shopeeMy: { min: 20000000, max: 38000000 },
     touchngo: { min: 22000000, max: 38000000 }
   },
   {
@@ -74,6 +79,7 @@ export const productManagementData: SalaryData[] = [
     grabSg: { min: 25000000, max: 65000000 },
     ovo: { min: 28910313, max: 49685325 },
     shopee: { min: 40000000, max: 70000000 },
+    shopeeMy: { min: 32000000, max: 60000000 },
     touchngo: { min: 35000000, max: 60000000 }
   }
 ];
@@ -89,6 +95,7 @@ export const engineeringData: SalaryData[] = [
     grabSg: { min: 6200000, max: 17000000 },
     ovo: { min: 7557922, max: 13374738 },
     shopee: { min: 7500000, max: 17000000 },
+    shopeeMy: { min: 6800000, max: 15000000 },
     touchngo: { min: 6000000, max: 15000000 }
   },
   {
@@ -100,6 +107,7 @@ export const engineeringData: SalaryData[] = [
     grabSg: { min: 10000000, max: 28000000 },
     ovo: { min: 10487651, max: 18410286 },
     shopee: { min: 12000000, max: 26000000 },
+    shopeeMy: { min: 10000000, max: 22000000 },
     touchngo: { min: 10000000, max: 23000000 }
   },
   {
@@ -111,6 +119,7 @@ export const engineeringData: SalaryData[] = [
     grabSg: { min: 10000000, max: 27000000 },
     ovo: { min: 14540586, max: 25717198 },
     shopee: { min: 18000000, max: 38000000 },
+    shopeeMy: { min: 15000000, max: 32000000 },
     touchngo: { min: 15000000, max: 32000000 }
   },
   {
@@ -122,6 +131,7 @@ export const engineeringData: SalaryData[] = [
     grabSg: { min: 15000000, max: 40000000 },
     ovo: { min: 23926470, max: 41056463 },
     shopee: { min: 28000000, max: 55000000 },
+    shopeeMy: { min: 24000000, max: 45000000 },
     touchngo: { min: 25000000, max: 48000000 }
   },
   {
@@ -133,6 +143,7 @@ export const engineeringData: SalaryData[] = [
     grabSg: { min: 25000000, max: 70000000 },
     ovo: { min: 28910313, max: 49685325 },
     shopee: { min: 45000000, max: 75000000 },
+    shopeeMy: { min: 35000000, max: 60000000 },
     touchngo: { min: 38000000, max: 65000000 }
   },
   {
@@ -144,6 +155,7 @@ export const engineeringData: SalaryData[] = [
     grabSg: { min: 40000000, max: 110000000 },
     ovo: { min: 34455289, max: 72917805 },
     shopee: { min: 60000000, max: 120000000 },
+    shopeeMy: { min: 48000000, max: 95000000 },
     touchngo: { min: 50000000, max: 95000000 }
   }
 ];
@@ -157,5 +169,6 @@ export const companyCountryMap = {
   grabSg: "Singapore",
   ovo: "Indonesia",
   shopee: "Singapore",
+  shopeeMy: "Malaysia",
   touchngo: "Malaysia"
 };
