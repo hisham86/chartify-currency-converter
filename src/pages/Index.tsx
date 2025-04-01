@@ -94,12 +94,20 @@ const Index = () => {
         <p>** Approximate conversion rates: 1 IDR ≈ 0.00029 MYR, 0.000064 USD, 0.000059 EUR</p>
         <p className="mt-2">
           Companies by country: 
-          {Object.entries(companyCountryMap).map(([company, country], index, arr) => (
-            <span key={company}>
-              {company.charAt(0).toUpperCase() + company.slice(1)} ({country})
-              {index < arr.length - 1 ? ', ' : ''}
-            </span>
-          ))}
+          {Object.entries(companyCountryMap).map(([company, country], index, arr) => {
+            // Format company name for display
+            let displayName = company;
+            if (company === "grabMy") displayName = "Grab MY";
+            if (company === "grabSg") displayName = "Grab SG";
+            else displayName = company.charAt(0).toUpperCase() + company.slice(1);
+            
+            return (
+              <span key={company}>
+                {displayName} ({country})
+                {index < arr.length - 1 ? ', ' : ''}
+              </span>
+            );
+          })}
         </p>
       </div>
     </div>
