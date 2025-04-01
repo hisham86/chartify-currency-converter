@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { 
   BarChart, 
@@ -8,11 +9,13 @@ import {
   CartesianGrid, 
   Tooltip, 
   Legend, 
-  ResponsiveContainer,
-  LabelList 
+  ResponsiveContainer
 } from "recharts";
 import { formatSalary } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { companyCountryMap } from "@/data/salaryData";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 interface CompanyData {
   min: number;
@@ -26,6 +29,8 @@ interface SalaryData {
   gojek: CompanyData;
   grab: CompanyData;
   ovo: CompanyData;
+  shopee: CompanyData;
+  touchngo: CompanyData;
 }
 
 interface SalaryChartProps {
@@ -44,10 +49,12 @@ const CustomTooltip = ({ active, payload, label, currency }: any) => {
     
     const minValue = data[minKey];
     const maxValue = data[maxKey];
+    const country = companyCountryMap[company as keyof typeof companyCountryMap];
     
     return (
       <Card className="p-3 border bg-white shadow-lg">
         <p className="font-bold">{label} - {company.charAt(0).toUpperCase() + company.slice(1)}</p>
+        <p className="text-xs text-gray-500">{country}</p>
         <p className="text-sm">Min: {formatSalary(minValue, currency)}</p>
         <p className="text-sm">Max: {formatSalary(maxValue, currency)}</p>
       </Card>
@@ -58,6 +65,15 @@ const CustomTooltip = ({ active, payload, label, currency }: any) => {
 
 const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRate }) => {
   const isMobile = useIsMobile();
+  const [visibleCompanies, setVisibleCompanies] = useState<Record<string, boolean>>({
+    tiket: true,
+    bukalapak: true,
+    gojek: true,
+    grab: true,
+    ovo: true,
+    shopee: true,
+    touchngo: true
+  });
   
   // Transform data for the chart
   const transformData = (data: SalaryData[]) => {
@@ -77,61 +93,101 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRat
         grab_max: item.grab.max * multiplier,
         ovo_min: item.ovo.min * multiplier,
         ovo_max: item.ovo.max * multiplier,
+        shopee_min: item.shopee.min * multiplier,
+        shopee_max: item.shopee.max * multiplier,
+        touchngo_min: item.touchngo.min * multiplier,
+        touchngo_max: item.touchngo.max * multiplier,
       };
     });
   };
 
   const chartData = transformData(data);
   
-  const companies = ["tiket", "bukalapak", "gojek", "grab", "ovo"];
-  const colors = ["#3b82f6", "#ef4444", "#10b981", "#8b5cf6", "#f97316"];
+  const companies = ["tiket", "bukalapak", "gojek", "grab", "ovo", "shopee", "touchngo"];
+  const colors = ["#3b82f6", "#ef4444", "#10b981", "#8b5cf6", "#f97316", "#ec4899", "#14b8a6"];
+
+  const toggleCompany = (company: string) => {
+    setVisibleCompanies(prev => ({
+      ...prev,
+      [company]: !prev[company]
+    }));
+  };
+
+  const filteredCompanies = companies.filter(company => visibleCompanies[company]);
 
   return (
-    <div className="w-full overflow-x-auto">
-      <div className="min-w-[800px] h-[600px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={chartData}
-            layout="vertical"
-            margin={{ top: 20, right: 30, left: isMobile ? 100 : 150, bottom: 10 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              type="number"
-              tickFormatter={(value) => formatSalary(value, currency, true)}
+    <div className="w-full">
+      <div className="mb-4 flex flex-wrap gap-4">
+        {companies.map((company, index) => (
+          <div key={company} className="flex items-center space-x-2">
+            <Checkbox 
+              id={`company-${company}`}
+              checked={visibleCompanies[company]}
+              onCheckedChange={() => toggleCompany(company)}
             />
-            <YAxis
-              dataKey="position"
-              type="category"
-              width={140}
-              tick={{ fontSize: isMobile ? 10 : 12 }}
-            />
-            <Tooltip content={<CustomTooltip currency={currency} />} />
-            <Legend />
-            
-            {companies.map((company, index) => (
-              <Bar
-                key={`${company}_max`}
-                dataKey={`${company}_max`}
-                name={`${company.charAt(0).toUpperCase() + company.slice(1)} Max`}
-                fill={colors[index]}
-                opacity={0.8}
-                stackId={company}
+            <Label 
+              htmlFor={`company-${company}`}
+              className="flex items-center space-x-1"
+            >
+              <div 
+                className="w-3 h-3 rounded-full inline-block" 
+                style={{ backgroundColor: colors[index] }}
               />
-            ))}
-            
-            {companies.map((company, index) => (
-              <Bar
-                key={`${company}_min`}
-                dataKey={`${company}_min`}
-                name={`${company.charAt(0).toUpperCase() + company.slice(1)} Min`}
-                fill={colors[index]}
-                opacity={0.4}
-                stackId={company}
+              <span>{company.charAt(0).toUpperCase() + company.slice(1)}</span>
+              <span className="text-xs text-gray-500">
+                ({companyCountryMap[company as keyof typeof companyCountryMap]})
+              </span>
+            </Label>
+          </div>
+        ))}
+      </div>
+      
+      <div className="overflow-x-auto">
+        <div className="min-w-[800px] h-[600px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={chartData}
+              layout="vertical"
+              margin={{ top: 20, right: 30, left: isMobile ? 100 : 150, bottom: 10 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                type="number"
+                tickFormatter={(value) => formatSalary(value, currency, true)}
               />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
+              <YAxis
+                dataKey="position"
+                type="category"
+                width={140}
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+              />
+              <Tooltip content={<CustomTooltip currency={currency} />} />
+              <Legend />
+              
+              {filteredCompanies.map((company, index) => (
+                <Bar
+                  key={`${company}_max`}
+                  dataKey={`${company}_max`}
+                  name={`${company.charAt(0).toUpperCase() + company.slice(1)} Max`}
+                  fill={colors[companies.indexOf(company)]}
+                  opacity={0.8}
+                  stackId={company}
+                />
+              ))}
+              
+              {filteredCompanies.map((company, index) => (
+                <Bar
+                  key={`${company}_min`}
+                  dataKey={`${company}_min`}
+                  name={`${company.charAt(0).toUpperCase() + company.slice(1)} Min`}
+                  fill={colors[companies.indexOf(company)]}
+                  opacity={0.4}
+                  stackId={company}
+                />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

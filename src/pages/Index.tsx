@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
 import SalaryChart from "@/components/SalaryChart";
-import { productManagementData, engineeringData } from "@/data/salaryData";
+import { productManagementData, engineeringData, companyCountryMap } from "@/data/salaryData";
 
 type CurrencyType = "IDR" | "MYR" | "USD" | "EUR";
 
@@ -31,6 +31,9 @@ const Index = () => {
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold text-center mb-8">Salary Range Comparison Chart</h1>
+      <p className="text-center mb-6 text-gray-600">
+        Compare salary ranges across companies in Indonesia, Malaysia, and Singapore
+      </p>
       
       <div className="flex justify-end mb-4">
         <Select
@@ -89,6 +92,15 @@ const Index = () => {
       <div className="mt-6 text-center text-sm text-gray-500">
         <p>* New joinee eligible for RSU/ESOP</p>
         <p>** Approximate conversion rates: 1 IDR ≈ 0.00029 MYR, 0.000064 USD, 0.000059 EUR</p>
+        <p className="mt-2">
+          Companies by country: 
+          {Object.entries(companyCountryMap).map(([company, country], index, arr) => (
+            <span key={company}>
+              {company.charAt(0).toUpperCase() + company.slice(1)} ({country})
+              {index < arr.length - 1 ? ', ' : ''}
+            </span>
+          ))}
+        </p>
       </div>
     </div>
   );
