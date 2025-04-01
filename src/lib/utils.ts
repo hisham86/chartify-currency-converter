@@ -7,10 +7,26 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // Format salary numbers to readable format with currency
-export function formatSalary(value: number, currency: "IDR" | "MYR", abbreviated = false): string {
+export function formatSalary(value: number, currency: "IDR" | "MYR" | "USD" | "EUR", abbreviated = false): string {
   if (value === 0) return "N/A"; // Handle N/A values
   
-  let symbol = currency === "IDR" ? "Rp " : "RM ";
+  let symbol;
+  switch (currency) {
+    case "IDR":
+      symbol = "Rp ";
+      break;
+    case "MYR":
+      symbol = "RM ";
+      break;
+    case "USD":
+      symbol = "$";
+      break;
+    case "EUR":
+      symbol = "€";
+      break;
+    default:
+      symbol = "";
+  }
   
   // For abbreviated values on axes
   if (abbreviated) {
@@ -25,7 +41,7 @@ export function formatSalary(value: number, currency: "IDR" | "MYR", abbreviated
   // For detailed tooltip values
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: currency === "IDR" ? "IDR" : "MYR",
+    currency: currency,
     maximumFractionDigits: 0,
   }).format(value);
 }

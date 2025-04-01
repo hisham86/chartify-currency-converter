@@ -7,11 +7,19 @@ import { toast } from "@/components/ui/use-toast";
 import SalaryChart from "@/components/SalaryChart";
 import { productManagementData, engineeringData } from "@/data/salaryData";
 
-const Index = () => {
-  const [currency, setCurrency] = useState<"IDR" | "MYR">("IDR");
-  const [conversionRate] = useState(0.00029); // 1 IDR = 0.00029 MYR (approximate)
+type CurrencyType = "IDR" | "MYR" | "USD" | "EUR";
 
-  const handleCurrencyChange = (value: "IDR" | "MYR") => {
+const Index = () => {
+  const [currency, setCurrency] = useState<CurrencyType>("IDR");
+  // Conversion rates from IDR to other currencies (approximate)
+  const conversionRates = {
+    IDR: 1,
+    MYR: 0.00029,
+    USD: 0.000064,
+    EUR: 0.000059
+  };
+
+  const handleCurrencyChange = (value: CurrencyType) => {
     setCurrency(value);
     toast({
       title: "Currency Updated",
@@ -27,7 +35,7 @@ const Index = () => {
       <div className="flex justify-end mb-4">
         <Select
           value={currency}
-          onValueChange={(value) => handleCurrencyChange(value as "IDR" | "MYR")}
+          onValueChange={(value) => handleCurrencyChange(value as CurrencyType)}
         >
           <SelectTrigger className="w-36">
             <SelectValue placeholder="Currency" />
@@ -35,6 +43,8 @@ const Index = () => {
           <SelectContent>
             <SelectItem value="IDR">IDR (Rupiah)</SelectItem>
             <SelectItem value="MYR">MYR (Ringgit)</SelectItem>
+            <SelectItem value="USD">USD (Dollar)</SelectItem>
+            <SelectItem value="EUR">EUR (Euro)</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -54,7 +64,7 @@ const Index = () => {
               <SalaryChart 
                 data={productManagementData} 
                 currency={currency} 
-                conversionRate={conversionRate} 
+                conversionRate={conversionRates[currency]} 
               />
             </CardContent>
           </Card>
@@ -69,7 +79,7 @@ const Index = () => {
               <SalaryChart 
                 data={engineeringData} 
                 currency={currency} 
-                conversionRate={conversionRate} 
+                conversionRate={conversionRates[currency]} 
               />
             </CardContent>
           </Card>
@@ -78,7 +88,7 @@ const Index = () => {
       
       <div className="mt-6 text-center text-sm text-gray-500">
         <p>* New joinee eligible for RSU/ESOP</p>
-        <p>** Conversion rate: 1 IDR ≈ 0.00029 MYR (approximate)</p>
+        <p>** Approximate conversion rates: 1 IDR ≈ 0.00029 MYR, 0.000064 USD, 0.000059 EUR</p>
       </div>
     </div>
   );

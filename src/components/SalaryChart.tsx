@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { 
@@ -31,7 +30,7 @@ interface SalaryData {
 
 interface SalaryChartProps {
   data: SalaryData[];
-  currency: "IDR" | "MYR";
+  currency: "IDR" | "MYR" | "USD" | "EUR";
   conversionRate: number;
 }
 
@@ -64,7 +63,7 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRat
   const transformData = (data: SalaryData[]) => {
     return data.map(item => {
       // Apply currency conversion if needed
-      const multiplier = currency === "MYR" ? conversionRate : 1;
+      const multiplier = conversionRate;
       
       return {
         position: item.position,
