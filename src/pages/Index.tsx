@@ -69,6 +69,20 @@ const Index = () => {
     }
   };
 
+  const getCountryName = (country: CountryType) => {
+    switch (country) {
+      case "Indonesia":
+        return "Indonesia";
+      case "Malaysia":
+        return "Malaysia";
+      case "Singapore":
+        return "Singapore";
+      case "all":
+      default:
+        return "All Countries";
+    }
+  };
+
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold text-center mb-8">Salary Range Comparison Chart</h1>
@@ -82,7 +96,10 @@ const Index = () => {
           onValueChange={(value) => handleCountryChange(value as CountryType)}
         >
           <SelectTrigger className="w-40">
-            {getCountryFlag(selectedCountry)}
+            <div className="flex items-center gap-2">
+              {getCountryFlag(selectedCountry)}
+              <span>{getCountryName(selectedCountry)}</span>
+            </div>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">
