@@ -8,9 +8,12 @@ import SalaryChart from "@/components/SalaryChart";
 import { productManagementData, engineeringData, companyCountryMap } from "@/data/salaryData";
 
 type CurrencyType = "IDR" | "MYR" | "USD" | "EUR";
+type CountryType = "all" | "Indonesia" | "Malaysia" | "Singapore";
 
 const Index = () => {
   const [currency, setCurrency] = useState<CurrencyType>("IDR");
+  const [selectedCountry, setSelectedCountry] = useState<CountryType>("all");
+  
   // Conversion rates from IDR to other currencies (approximate)
   const conversionRates = {
     IDR: 1,
@@ -28,6 +31,15 @@ const Index = () => {
     });
   };
 
+  const handleCountryChange = (value: CountryType) => {
+    setSelectedCountry(value);
+    toast({
+      title: "Country Filter Updated",
+      description: value === "all" ? "Showing all countries" : `Showing only ${value}`,
+      duration: 2000,
+    });
+  };
+
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold text-center mb-8">Salary Range Comparison Chart</h1>
@@ -35,7 +47,22 @@ const Index = () => {
         Compare salary ranges across companies in Indonesia, Malaysia, and Singapore
       </p>
       
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end mb-4 gap-4">
+        <Select
+          value={selectedCountry}
+          onValueChange={(value) => handleCountryChange(value as CountryType)}
+        >
+          <SelectTrigger className="w-40">
+            <SelectValue placeholder="Filter by Country" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Countries</SelectItem>
+            <SelectItem value="Indonesia">Indonesia</SelectItem>
+            <SelectItem value="Malaysia">Malaysia</SelectItem>
+            <SelectItem value="Singapore">Singapore</SelectItem>
+          </SelectContent>
+        </Select>
+        
         <Select
           value={currency}
           onValueChange={(value) => handleCurrencyChange(value as CurrencyType)}
@@ -67,7 +94,8 @@ const Index = () => {
               <SalaryChart 
                 data={productManagementData} 
                 currency={currency} 
-                conversionRate={conversionRates[currency]} 
+                conversionRate={conversionRates[currency]}
+                selectedCountry={selectedCountry}
               />
             </CardContent>
           </Card>
@@ -82,7 +110,8 @@ const Index = () => {
               <SalaryChart 
                 data={engineeringData} 
                 currency={currency} 
-                conversionRate={conversionRates[currency]} 
+                conversionRate={conversionRates[currency]}
+                selectedCountry={selectedCountry}
               />
             </CardContent>
           </Card>

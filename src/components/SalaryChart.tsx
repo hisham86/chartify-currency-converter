@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { 
   BarChart, 
@@ -39,6 +38,7 @@ interface SalaryChartProps {
   data: SalaryData[];
   currency: "IDR" | "MYR" | "USD" | "EUR";
   conversionRate: number;
+  selectedCountry: "all" | "Indonesia" | "Malaysia" | "Singapore";
 }
 
 // Custom tooltip to display min and max values
@@ -65,7 +65,7 @@ const CustomTooltip = ({ active, payload, label, currency }: any) => {
   return null;
 };
 
-const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRate }) => {
+const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRate, selectedCountry }) => {
   const isMobile = useIsMobile();
   const [visibleCompanies, setVisibleCompanies] = useState<Record<string, boolean>>({
     tiket: true,
@@ -78,6 +78,34 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRat
     shopeeMy: true,
     touchngo: true
   });
+  
+  // Filter companies based on selected country
+  const filteredCompanies = useMemo(() => {
+    const allCompanies = ["tiket", "bukalapak", "gojek", "grabMy", "grabSg", "ovo", "shopee", "shopeeMy", "touchngo"];
+    
+    if (selectedCountry === "all") {
+      return allCompanies.filter(company => visibleCompanies[company]);
+    }
+    
+    return allCompanies.filter(company => {
+      const companyCountry = companyCountryMap[company as keyof typeof companyCountryMap];
+      return companyCountry === selectedCountry && visibleCompanies[company];
+    });
+  }, [selectedCountry, visibleCompanies]);
+
+  // Get available companies for the current country filter
+  const availableCompanies = useMemo(() => {
+    const allCompanies = ["tiket", "bukalapak", "gojek", "grabMy", "grabSg", "ovo", "shopee", "shopeeMy", "touchngo"];
+    
+    if (selectedCountry === "all") {
+      return allCompanies;
+    }
+    
+    return allCompanies.filter(company => {
+      const companyCountry = companyCountryMap[company as keyof typeof companyCountryMap];
+      return companyCountry === selectedCountry;
+    });
+  }, [selectedCountry]);
   
   // Transform data for the chart
   const transformData = (data: SalaryData[]) => {
@@ -121,8 +149,6 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRat
     }));
   };
 
-  const filteredCompanies = companies.filter(company => visibleCompanies[company]);
-
   const getCompanyDisplayName = (company: string) => {
     if (company === "grabMy") return "Grab MY";
     if (company === "grabSg") return "Grab SG";
@@ -133,7 +159,7 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRat
   return (
     <div className="w-full">
       <div className="mb-4 flex flex-wrap gap-4">
-        {companies.map((company, index) => (
+        {availableCompanies.map((company, index) => (
           <div key={company} className="flex items-center space-x-2">
             <Checkbox 
               id={`company-${company}`}
@@ -146,7 +172,7 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data, currency, conversionRat
             >
               <div 
                 className="w-3 h-3 rounded-full inline-block" 
-                style={{ backgroundColor: colors[index] }}
+                style={{ backgroundColor: colors[companies.indexOf(company)] }}
               />
               <span>{getCompanyDisplayName(company)}</span>
               <span className="text-xs text-gray-500">
