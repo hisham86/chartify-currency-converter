@@ -43,15 +43,15 @@ const Index = () => {
   const getCurrencyIcon = (curr: CurrencyType) => {
     switch (curr) {
       case "IDR":
-        return <IndianRupee className="w-4 h-4" />;
+        return <span className="text-base">🇮🇩</span>;
       case "MYR":
         return <span className="text-base">🇲🇾</span>;
       case "USD":
-        return <DollarSign className="w-4 h-4" />;
+        return <span className="text-base">🇺🇸</span>;
       case "EUR":
-        return <Euro className="w-4 h-4" />;
+        return <span className="text-base">🇪🇺</span>;
       default:
-        return <DollarSign className="w-4 h-4" />;
+        return <span className="text-base">🇺🇸</span>;
     }
   };
 
