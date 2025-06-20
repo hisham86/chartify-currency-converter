@@ -1,10 +1,9 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
-import { Flag, DollarSign, Euro, IndianRupee } from "lucide-react";
+import { DollarSign, Euro, IndianRupee } from "lucide-react";
 import SalaryChart from "@/components/SalaryChart";
 import { productManagementData, engineeringData, companyCountryMap } from "@/data/salaryData";
 
@@ -46,7 +45,7 @@ const Index = () => {
       case "IDR":
         return <IndianRupee className="w-4 h-4" />;
       case "MYR":
-        return <Flag className="w-4 h-4" />;
+        return <span className="text-base">🇲🇾</span>;
       case "USD":
         return <DollarSign className="w-4 h-4" />;
       case "EUR":
@@ -57,7 +56,17 @@ const Index = () => {
   };
 
   const getCountryFlag = (country: CountryType) => {
-    return <Flag className="w-4 h-4" />;
+    switch (country) {
+      case "Indonesia":
+        return <span className="text-base">🇮🇩</span>;
+      case "Malaysia":
+        return <span className="text-base">🇲🇾</span>;
+      case "Singapore":
+        return <span className="text-base">🇸🇬</span>;
+      case "all":
+      default:
+        return <span className="text-base">🌍</span>;
+    }
   };
 
   return (
@@ -81,25 +90,25 @@ const Index = () => {
           <SelectContent>
             <SelectItem value="all">
               <div className="flex items-center gap-2">
-                <Flag className="w-4 h-4" />
+                <span className="text-base">🌍</span>
                 All Countries
               </div>
             </SelectItem>
             <SelectItem value="Indonesia">
               <div className="flex items-center gap-2">
-                <Flag className="w-4 h-4" />
+                <span className="text-base">🇮🇩</span>
                 Indonesia
               </div>
             </SelectItem>
             <SelectItem value="Malaysia">
               <div className="flex items-center gap-2">
-                <Flag className="w-4 h-4" />
+                <span className="text-base">🇲🇾</span>
                 Malaysia
               </div>
             </SelectItem>
             <SelectItem value="Singapore">
               <div className="flex items-center gap-2">
-                <Flag className="w-4 h-4" />
+                <span className="text-base">🇸🇬</span>
                 Singapore
               </div>
             </SelectItem>
@@ -119,13 +128,13 @@ const Index = () => {
           <SelectContent>
             <SelectItem value="IDR">
               <div className="flex items-center gap-2">
-                <IndianRupee className="w-4 h-4" />
+                <span className="text-base">🇮🇩</span>
                 IDR (Rupiah)
               </div>
             </SelectItem>
             <SelectItem value="MYR">
               <div className="flex items-center gap-2">
-                <Flag className="w-4 h-4" />
+                <span className="text-base">🇲🇾</span>
                 MYR (Ringgit)
               </div>
             </SelectItem>
