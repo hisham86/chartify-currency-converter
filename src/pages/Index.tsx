@@ -140,30 +140,10 @@ const Index = () => {
             </div>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="IDR">
-              <div className="flex items-center gap-2">
-                <span className="text-base">🇮🇩</span>
-                IDR (Rupiah)
-              </div>
-            </SelectItem>
-            <SelectItem value="MYR">
-              <div className="flex items-center gap-2">
-                <span className="text-base">🇲🇾</span>
-                MYR (Ringgit)
-              </div>
-            </SelectItem>
-            <SelectItem value="USD">
-              <div className="flex items-center gap-2">
-                <DollarSign className="w-4 h-4" />
-                USD (Dollar)
-              </div>
-            </SelectItem>
-            <SelectItem value="EUR">
-              <div className="flex items-center gap-2">
-                <Euro className="w-4 h-4" />
-                EUR (Euro)
-              </div>
-            </SelectItem>
+            <SelectItem value="IDR">IDR (Rupiah)</SelectItem>
+            <SelectItem value="MYR">MYR (Ringgit)</SelectItem>
+            <SelectItem value="USD">USD (Dollar)</SelectItem>
+            <SelectItem value="EUR">EUR (Euro)</SelectItem>
           </SelectContent>
         </Select>
       </div>
