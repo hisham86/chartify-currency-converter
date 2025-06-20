@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
+import { Flag, DollarSign, Euro, IndianRupee } from "lucide-react";
 import SalaryChart from "@/components/SalaryChart";
 import { productManagementData, engineeringData, companyCountryMap } from "@/data/salaryData";
 
@@ -40,6 +41,25 @@ const Index = () => {
     });
   };
 
+  const getCurrencyIcon = (curr: CurrencyType) => {
+    switch (curr) {
+      case "IDR":
+        return <IndianRupee className="w-4 h-4" />;
+      case "MYR":
+        return <Flag className="w-4 h-4" />;
+      case "USD":
+        return <DollarSign className="w-4 h-4" />;
+      case "EUR":
+        return <Euro className="w-4 h-4" />;
+      default:
+        return <DollarSign className="w-4 h-4" />;
+    }
+  };
+
+  const getCountryFlag = (country: CountryType) => {
+    return <Flag className="w-4 h-4" />;
+  };
+
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold text-center mb-8">Salary Range Comparison Chart</h1>
@@ -53,13 +73,36 @@ const Index = () => {
           onValueChange={(value) => handleCountryChange(value as CountryType)}
         >
           <SelectTrigger className="w-40">
-            <SelectValue placeholder="Filter by Country" />
+            <div className="flex items-center gap-2">
+              {getCountryFlag(selectedCountry)}
+              <SelectValue placeholder="Filter by Country" />
+            </div>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Countries</SelectItem>
-            <SelectItem value="Indonesia">Indonesia</SelectItem>
-            <SelectItem value="Malaysia">Malaysia</SelectItem>
-            <SelectItem value="Singapore">Singapore</SelectItem>
+            <SelectItem value="all">
+              <div className="flex items-center gap-2">
+                <Flag className="w-4 h-4" />
+                All Countries
+              </div>
+            </SelectItem>
+            <SelectItem value="Indonesia">
+              <div className="flex items-center gap-2">
+                <Flag className="w-4 h-4" />
+                Indonesia
+              </div>
+            </SelectItem>
+            <SelectItem value="Malaysia">
+              <div className="flex items-center gap-2">
+                <Flag className="w-4 h-4" />
+                Malaysia
+              </div>
+            </SelectItem>
+            <SelectItem value="Singapore">
+              <div className="flex items-center gap-2">
+                <Flag className="w-4 h-4" />
+                Singapore
+              </div>
+            </SelectItem>
           </SelectContent>
         </Select>
         
@@ -68,13 +111,36 @@ const Index = () => {
           onValueChange={(value) => handleCurrencyChange(value as CurrencyType)}
         >
           <SelectTrigger className="w-36">
-            <SelectValue placeholder="Currency" />
+            <div className="flex items-center gap-2">
+              {getCurrencyIcon(currency)}
+              <SelectValue placeholder="Currency" />
+            </div>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="IDR">IDR (Rupiah)</SelectItem>
-            <SelectItem value="MYR">MYR (Ringgit)</SelectItem>
-            <SelectItem value="USD">USD (Dollar)</SelectItem>
-            <SelectItem value="EUR">EUR (Euro)</SelectItem>
+            <SelectItem value="IDR">
+              <div className="flex items-center gap-2">
+                <IndianRupee className="w-4 h-4" />
+                IDR (Rupiah)
+              </div>
+            </SelectItem>
+            <SelectItem value="MYR">
+              <div className="flex items-center gap-2">
+                <Flag className="w-4 h-4" />
+                MYR (Ringgit)
+              </div>
+            </SelectItem>
+            <SelectItem value="USD">
+              <div className="flex items-center gap-2">
+                <DollarSign className="w-4 h-4" />
+                USD (Dollar)
+              </div>
+            </SelectItem>
+            <SelectItem value="EUR">
+              <div className="flex items-center gap-2">
+                <Euro className="w-4 h-4" />
+                EUR (Euro)
+              </div>
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>
