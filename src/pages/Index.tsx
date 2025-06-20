@@ -82,10 +82,7 @@ const Index = () => {
           onValueChange={(value) => handleCountryChange(value as CountryType)}
         >
           <SelectTrigger className="w-40">
-            <div className="flex items-center gap-2">
-              {getCountryFlag(selectedCountry)}
-              <SelectValue placeholder="Filter by Country" />
-            </div>
+            {getCountryFlag(selectedCountry)}
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">
